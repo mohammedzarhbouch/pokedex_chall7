@@ -17,6 +17,7 @@ namespace pokedex
         public Form1()
         {
             InitializeComponent();
+            this.refresh();
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -29,16 +30,18 @@ namespace pokedex
             MySqlConnection con = new MySqlConnection("server = localhost; port = 3306; username = bigguy; password = bigguy; database = pokedex; ");
             con.Open();
 
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO pokemon (ID, PokemonName, PokemonType) VALUES (@ID,@PokemonName, @PokemonType)", con);
-            cmd.Parameters.AddWithValue("@ID", int.Parse(textBox1.Text));
+           // MySqlCommand cmd = new MySqlCommand("INSERT INTO pokemon (ID, PokemonName, PokemonType) VALUES (@ID,@PokemonName, @PokemonType)", con);
+            MySqlCommand cmd = new MySqlCommand("INSERT INTO pokemon (PokemonName, PokemonType) VALUES (@PokemonName, @PokemonType)", con);
+           // cmd.Parameters.AddWithValue("@ID", int.Parse(textBox1.Text));
             cmd.Parameters.AddWithValue("@PokemonName", textBox2.Text);
             cmd.Parameters.AddWithValue("@PokemonType", textBox3.Text);
             cmd.ExecuteNonQuery();
 
             con.Close();
-            MessageBox.Show("Succesfully Saved");
+            this.refresh();
+           // MessageBox.Show("Succesfully Saved");
         }
-
+        
         private void button3_Click(object sender, EventArgs e)
         {
             MySqlConnection con = new MySqlConnection("server = localhost; port = 3306; username = bigguy; password = bigguy; database = pokedex; ");
@@ -67,6 +70,11 @@ namespace pokedex
 
         private void button4_Click(object sender, EventArgs e)
         {
+            this.refresh();
+        }
+
+        private void refresh()
+        {
             MySqlConnection con = new MySqlConnection("server = localhost; port = 3306; username = bigguy; password = bigguy; database = pokedex; ");
             con.Open();
 
@@ -74,18 +82,20 @@ namespace pokedex
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
-            dataGridView1.DataSource= dt;
+            dataGridView1.DataSource = dt;
         }
 
         
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            
+            MessageBox.Show("hey");
         }
 
-       
-
-        
+        private void button5_Click(object sender, EventArgs e)
+        {
+            pictureBox2.Image = Properties.Resources.Pokédex_logo;
+        }
     } 
 }
